@@ -16,12 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "no action",
         onUpdate: "CASCADE",
       });
-      // Asset.belongsTo(models.Department, {
-      //   foreignKey: "department",
-      //   targetKey: "departmentId",
-      //   onDelete: "no action",
-      //   onUpdate: "CASCADE",
-      // });
       Asset.belongsTo(models.Status, {
         foreignKey: "status",
         targetKey: "statusId",

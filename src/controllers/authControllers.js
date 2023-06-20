@@ -2,16 +2,8 @@ const logger = require("../../utils/logger");
 const AssetServices = require("../services/assetServices");
 const redis = require("../../utils/redis");
 const jwt = require("jsonwebtoken");
-const verify = (token) => {
-  try {
-    jwt.verify(token, process.env.JWT_SECRET);
-    return true;
-  } catch (e) {
-    if (e) {
-      return false;
-    }
-  }
-};
+import { verify } from "../../utils/verify";
+
 class AssetControllers {
   constructor() {
     this.assetServices = new AssetServices();
@@ -19,7 +11,6 @@ class AssetControllers {
 
   accToken = async (req, res, next) => {
     try {
-      const tokenq = req.cookies.token;
       const { token } = req.body;
       const decoded = jwt.decode(token);
       const resultacc = await redis.get(`${decoded.email}acc`);
