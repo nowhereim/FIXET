@@ -6,7 +6,9 @@ import {
   AssetCount,
   ReadAssetInput,
   ReadAssetOutput,
+  dashboardReadAssetInterface,
 } from "../interface/AssetInterfaces.js";
+import Asset from "src/models/asset.js";
 class AssetControllers {
   private assetServices: AssetServices;
   constructor() {
@@ -15,7 +17,7 @@ class AssetControllers {
 
   createAsset = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const val = req.body;
+      const val: Asset = req.body;
       const asset = await this.assetServices.createAsset(val);
       return res.status(200).send({ asset });
     } catch (error: any) {
@@ -32,7 +34,10 @@ class AssetControllers {
     try {
       const { identifier } = req.params;
       const val = req.body;
-      const asset = await this.assetServices.excelCreateAsset(identifier, val);
+      const asset: string = await this.assetServices.excelCreateAsset(
+        identifier,
+        val,
+      );
       return res.status(200).send({ asset });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -43,7 +48,7 @@ class AssetControllers {
   updateAsset = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const assets = req.body;
-      const asset = await this.assetServices.updateAsset(assets);
+      const asset: string = await this.assetServices.updateAsset(assets);
       return res.status(200).send({ asset });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -54,7 +59,7 @@ class AssetControllers {
   deleteAsset = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const assets = req.body;
-      const asset = await this.assetServices.deleteAsset(assets);
+      const asset: string = await this.assetServices.deleteAsset(assets);
       return res.status(200).send({ asset });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -65,7 +70,7 @@ class AssetControllers {
   readAsset = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const val = req.query.id as unknown as ReadAssetInput;
-      const asset = await this.assetServices.readAsset(val);
+      const asset: ReadAssetOutput = await this.assetServices.readAsset(val);
       return res.status(200).send({ asset });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -80,10 +85,8 @@ class AssetControllers {
   ) => {
     try {
       const val = req.query.id as string;
-      const result = await this.assetServices.categoryReadAsset(val);
-      if (result.error) {
-        return res.status(400).send(result);
-      }
+      const result: ReadAssetOutput =
+        await this.assetServices.categoryReadAsset(val);
       return res.status(201).send(result);
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -98,7 +101,8 @@ class AssetControllers {
   ) => {
     try {
       const val = req.query.id as unknown as ReadAssetInput;
-      const result = await this.assetServices.dashboardReadAsset(val);
+      const result: dashboardReadAssetInterface =
+        await this.assetServices.dashboardReadAsset(val);
       return res.status(201).send(result);
     } catch (error: any) {
       logger.error(error.stack || error.message);

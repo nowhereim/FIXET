@@ -1,4 +1,4 @@
-import { Asset } from "../models/models.js";
+import { Asset, Dashboard } from "../models/models.js";
 
 export interface AssetInstance extends Asset {
   assetNumber: number;
@@ -17,10 +17,14 @@ export interface ReadAssetInput {
 export interface ReadAssetOutput {
   Assets: AssetInstance[];
   totalCount: number;
-  ldsTotalCount: number;
-  monitorTotalCount: number;
-  mobileTotalCount: number;
-  officeequipmentTotalCount: number;
-  otherequipmentTotalCount: number;
-  softwareTotalCount: number;
+  ldsTotalCount?: number;
+  monitorTotalCount?: number;
+  mobileTotalCount?: number;
+  officeequipmentTotalCount?: number;
+  otherequipmentTotalCount?: number;
+  softwareTotalCount?: number;
+}
+export interface dashboardReadAssetInterface {
+  Assets: Dashboard[];
+  totalCount: number;
 }

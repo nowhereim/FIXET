@@ -10,9 +10,6 @@ class AuthControllers {
 
   accToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      interface decodeInterface {
-        email: string;
-      }
       const { token } = req.body;
       const decoded: any = jwt.decode(token);
 
@@ -23,13 +20,13 @@ class AuthControllers {
         });
 
       const result = await redis.get(`${decoded.email}ref`);
-      if (result === null) {
+      if (!result) {
         return res.status(401).send({
           errorMessage: "The refresh token has expired. Please login again.",
         });
       } else {
         const refreshVerify = verify(result);
-        if (refreshVerify === false) {
+        if (!refreshVerify) {
           return res.status(401).send({
             errorMessage: "The refresh token has expired. Please login again.",
           });
@@ -44,7 +41,7 @@ class AuthControllers {
               expiresIn: "30s",
             },
           );
-          redis.set(`${decoded.email}acc`, token);
+          redis.set(`${decoded.email}acc`, token, { EX: 86400 });
           return res.status(200).send({
             token: token,
           });
