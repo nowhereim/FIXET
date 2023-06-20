@@ -6,7 +6,7 @@ import {
   AssetCount,
   ReadAssetInput,
   ReadAssetOutput,
-} from "../interface/interfaces.js";
+} from "../interface/AssetInterfaces.js";
 class AssetControllers {
   private assetServices: AssetServices;
   constructor() {
