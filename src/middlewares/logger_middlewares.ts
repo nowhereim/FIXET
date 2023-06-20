@@ -1,7 +1,6 @@
-const morgan = require("morgan");
-const logger = require("../../utils/logger");
-const dotenv = require("dotenv");
-
+import morgan from "morgan";
+import logger from "../utils/logger.js";
+import dotenv from "dotenv";
 dotenv.config();
 
 const format = () => {
@@ -10,7 +9,7 @@ const format = () => {
 };
 
 const stream = {
-  write: (message) => {
+  write: (message: string) => {
     logger.info(
       message.replace(
         /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
@@ -19,7 +18,7 @@ const stream = {
     );
   },
 };
-const skip = (_, res) => {
+const skip = (_: any, res: any) => {
   if (process.env.NODE_ENV === "production") {
     return res.ststusCode < 399;
   }
@@ -28,4 +27,4 @@ const skip = (_, res) => {
 
 const morganMiddleware = morgan(format(), { stream, skip });
 
-module.exports = morganMiddleware;
+export default morganMiddleware;

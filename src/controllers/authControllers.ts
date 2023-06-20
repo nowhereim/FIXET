@@ -1,18 +1,21 @@
-const logger = require("../../utils/logger");
-const AssetServices = require("../services/assetServices");
-const redis = require("../../utils/redis");
-const jwt = require("jsonwebtoken");
-import { verify } from "../../utils/verify";
+import logger from "../utils/logger.js";
+import redis from "../utils/redis.js";
+import jwt from "jsonwebtoken";
+import { verify } from "../utils/verify.js";
+import { Request, Response, NextFunction } from "express";
+import dotenv from "dotenv";
+dotenv.config();
+class AuthControllers {
+  constructor() {}
 
-class AssetControllers {
-  constructor() {
-    this.assetServices = new AssetServices();
-  }
-
-  accToken = async (req, res, next) => {
+  accToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      interface decodeInterface {
+        email: string;
+      }
       const { token } = req.body;
-      const decoded = jwt.decode(token);
+      const decoded: any = jwt.decode(token);
+
       const resultacc = await redis.get(`${decoded.email}acc`);
       if (resultacc !== token)
         return res.status(401).send({
@@ -31,12 +34,12 @@ class AssetControllers {
             errorMessage: "The refresh token has expired. Please login again.",
           });
         } else {
-          const decoded = jwt.decode(result);
+          const decoded: any = jwt.decode(result);
           const token = jwt.sign(
             {
               email: decoded.email,
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET!,
             {
               expiresIn: "30s",
             },
@@ -47,15 +50,11 @@ class AssetControllers {
           });
         }
       }
-    } catch (error) {
-      logger.error(error.name);
-      logger.error(error.message);
-      return res.status(401).send({
-        errorname: error.name,
-        message: error.message,
-      });
+    } catch (error: any) {
+      logger.error(error.stack || error.message);
+      return res.status(401).send({ error: error.message });
     }
   };
 }
 
-module.exports = AssetControllers;
+export default AuthControllers;

@@ -114,3 +114,7 @@ Services
 package-lock.json
 LICENSE
 poo.js
+tsconfig.json
+nodemon.json
+백업.ts
+app.ts
