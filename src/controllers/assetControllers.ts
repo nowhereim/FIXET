@@ -2,8 +2,6 @@ import logger from "../utils/logger.js";
 import AssetServices from "../services/assetServices.js";
 import { Request, Response, NextFunction } from "express";
 import {
-  AssetInstance,
-  AssetCount,
   ReadAssetInput,
   ReadAssetOutput,
   dashboardReadAssetInterface,

@@ -12,7 +12,6 @@ class AuthControllers {
     try {
       const { token } = req.body;
       const decoded: any = jwt.decode(token);
-
       const resultacc = await redis.get(`${decoded.email}acc`);
       if (resultacc !== token)
         return res.status(401).send({

@@ -2,6 +2,7 @@ import UserServices from "../services/userServices.js";
 import bcrypt from "bcryptjs";
 import logger from "../utils/logger.js";
 import { Request, Response, NextFunction } from "express";
+import { ReadUserOutput, TokenOutput } from "../interface/UserInterfaces.js";
 
 class UserControllers {
   private userServices: UserServices;
@@ -15,8 +16,14 @@ class UserControllers {
       const { email, password, name, agreePi, company } = req.body;
       const pass = await bcrypt.hash(password, 10);
       await this.userServices.validation(email, password);
-      await this.userServices.createUser(email, pass, name, agreePi, company);
-      return res.status(200).send({ msg: "success" });
+      const result = await this.userServices.createUser(
+        email,
+        pass,
+        name,
+        agreePi,
+        company,
+      );
+      return res.status(200).send({ result });
     } catch (error: any) {
       logger.error(error.stack || error.message);
       return res.status(400).send({ error: error.message });
@@ -31,7 +38,7 @@ class UserControllers {
       if (!regExp.test(email)) {
         return res.status(400).send({ error: "이메일 형식이 아닙니다." });
       }
-      const userIdCheck = await this.userServices.authMail(email, name);
+      await this.userServices.authMail(email, name);
       return res.status(200).send({
         msg: `${email}로 인증번호가 발송되었습니다. 3분후 발송된 인증번호는 폐기됩니다.`,
       });
@@ -44,7 +51,7 @@ class UserControllers {
   authCode = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, code } = req.body;
-      const userIdCheck = await this.userServices.authCode(email, code);
+      await this.userServices.authCode(email, code);
       return res.status(200).send({ msg: "인증되었습니다." });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -55,8 +62,8 @@ class UserControllers {
   signIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
-      const user = await this.userServices.checkUser(email, password);
-      const token = await this.userServices.createToken(email);
+      await this.userServices.checkUser(email, password);
+      const token: TokenOutput = await this.userServices.createToken(email);
       return res.status(200).send({ token });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -67,7 +74,7 @@ class UserControllers {
   signout = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userEmail = res.locals.userEmail;
-      const user = await this.userServices.signout(userEmail);
+      await this.userServices.signout(userEmail);
       return res.status(200).send({ msg: "로그아웃 되었습니다." });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -78,7 +85,7 @@ class UserControllers {
   updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, ...rest } = req.body;
-      const user = await this.userServices.updateUser(email, rest);
+      const user: string = await this.userServices.updateUser(email, rest);
       return res.status(200).send({ user });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -89,7 +96,7 @@ class UserControllers {
   patchEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, newemail } = req.body;
-      const user = await this.userServices.patchEmail(email, newemail);
+      const user: string = await this.userServices.patchEmail(email, newemail);
       return res.status(200).send({ user });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -100,7 +107,7 @@ class UserControllers {
   deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
-      const user = await this.userServices.deleteUser(email, password);
+      const user: string = await this.userServices.deleteUser(email, password);
       return res.status(200).send({ user });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -111,8 +118,11 @@ class UserControllers {
   resetPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
-      const user = await this.userServices.resetPassword(email, password);
-      return res.status(200).send(user);
+      const user: string = await this.userServices.resetPassword(
+        email,
+        password,
+      );
+      return res.status(200).send({ user });
     } catch (error: any) {
       logger.error(error.stack || error.message);
       return res.status(400).send({ error: error.message });
@@ -122,7 +132,7 @@ class UserControllers {
   readUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.query.id as string;
-      const user = await this.userServices.readUser(id);
+      const user: ReadUserOutput = await this.userServices.readUser(id);
       return res.status(200).send({ user });
     } catch (error: any) {
       logger.error(error.stack || error.message);
@@ -134,10 +144,13 @@ class UserControllers {
     try {
       const { email, password } = req.body;
       if (!password) {
-        const checkMail = await this.userServices.checkMail(email);
-        return res.status(200).send(checkMail);
+        const checkMail: string = await this.userServices.checkMail(email);
+        return res.status(200).send({ checkMail });
       } else {
-        const user = await this.userServices.checkPassword(email, password);
+        const user: string = await this.userServices.checkPassword(
+          email,
+          password,
+        );
         return res.status(200).send({ user });
       }
     } catch (error: any) {
