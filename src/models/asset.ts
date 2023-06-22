@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Model, Optional } from "sequelize";
 
 export default interface AssetAttributes {
+  [x: string]: any;
   assetId: number;
   assetNumber: number;
   name?: string;
