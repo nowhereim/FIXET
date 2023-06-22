@@ -118,3 +118,5 @@ tsconfig.json
 nodemon.json
 백업.ts
 app.ts
+
+/src/models/index.ts

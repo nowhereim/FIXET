@@ -1,6 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "./index.js";
-interface StatusAttributes {
+import { Model, DataTypes, Sequelize } from "sequelize";
+
+export default interface StatusAttributes {
   statusId?: number;
   status: string;
 }
@@ -17,22 +17,21 @@ class Status extends Model<StatusAttributes> {
     });
   }
 }
-
-Status.init(
-  {
-    statusId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+export const StatusFactory = (sequelize: Sequelize) => {
+  Status.init(
+    {
+      statusId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      status: DataTypes.STRING,
     },
-    status: DataTypes.STRING,
-  },
-  {
-    sequelize,
-    modelName: "Status",
-  },
-);
-
+    {
+      sequelize,
+      modelName: "Status",
+    },
+  );
+  return Status;
+};
 // Status.Sequelize.sync({ alter: true });
-
-export default Status;

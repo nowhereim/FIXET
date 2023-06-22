@@ -1,6 +1,14 @@
-import { Asset, Dashboard } from "../models/models.js";
+import models from "../models/index.js";
+import Asset from "../models/asset.js";
+import Category from "../models/category.js";
+import Company from "../models/company.js";
+import Dashboard from "../models/dashboard.js";
+import Status from "../models/status.js";
+import User from "../models/user.js";
+import sequelize from "../models/index.js";
 
-export interface AssetInstance extends Asset {
+export { Asset, Category, Company, Dashboard, Status, User, sequelize };
+export interface AssetInstance extends InstanceType<typeof models.Asset> {
   assetNumber: number;
 }
 
@@ -25,6 +33,6 @@ export interface ReadAssetOutput {
   softwareTotalCount?: number;
 }
 export interface dashboardReadAssetInterface {
-  Assets: Dashboard[];
+  Assets: (typeof models.Dashboard)[];
   totalCount: number;
 }

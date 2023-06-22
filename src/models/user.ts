@@ -1,7 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Model, DataTypes, Sequelize } from "sequelize";
 
-interface UserAttributes {
+export default interface UserAttributes {
   userId?: number;
   email: string;
   password: string;
@@ -39,27 +38,27 @@ class User extends Model<UserAttributes> {
     });
   }
 }
-
-User.init(
-  {
-    userId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+export const UserFactory = (sequelize: Sequelize) => {
+  User.init(
+    {
+      userId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      name: DataTypes.STRING,
+      agreePi: DataTypes.BOOLEAN,
+      identifier: DataTypes.INTEGER,
+      phone: DataTypes.STRING,
+      job: DataTypes.STRING,
+      company: DataTypes.STRING,
     },
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    name: DataTypes.STRING,
-    agreePi: DataTypes.BOOLEAN,
-    identifier: DataTypes.INTEGER,
-    phone: DataTypes.STRING,
-    job: DataTypes.STRING,
-    company: DataTypes.STRING,
-  },
-  {
-    sequelize,
-    modelName: "User",
-  },
-);
-
-export default User;
+    {
+      sequelize,
+      modelName: "User",
+    },
+  );
+  return User;
+};

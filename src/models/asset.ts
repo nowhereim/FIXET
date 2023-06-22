@@ -1,13 +1,12 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Sequelize, DataTypes, Model, Optional } from "sequelize";
 
-interface AssetAttributes {
-  assetId?: number;
-  assetNumber?: number;
+export default interface AssetAttributes {
+  assetId: number;
+  assetNumber: number;
   name?: string;
   status?: number;
   category?: number;
-  identifier?: string;
+  identifier: string;
   serialNumber?: string;
   product?: string;
   manufacturer?: string;
@@ -17,8 +16,11 @@ interface AssetAttributes {
   team?: string;
 }
 
-class Asset extends Model<AssetAttributes> {
-  public assetId?: number;
+interface AssetCreationAttributes
+  extends Optional<AssetAttributes, "assetId"> {}
+
+class Asset extends Model<AssetAttributes, AssetCreationAttributes> {
+  public assetId!: number;
   public assetNumber!: number;
   public name?: string;
   public status?: number;
@@ -37,7 +39,7 @@ class Asset extends Model<AssetAttributes> {
       foreignKey: "identifier",
       targetKey: "companyId",
       as: "admin",
-      onDelete: "CASCADE",
+      onDelete: "CASCADE", //
       onUpdate: "CASCADE",
     });
     Asset.belongsTo(models.Category, {
@@ -55,34 +57,35 @@ class Asset extends Model<AssetAttributes> {
   }
 }
 
-Asset.init(
-  {
-    assetId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
+export const AssetFactory = (sequelize: Sequelize): typeof Asset => {
+  Asset.init(
+    {
+      assetId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      assetNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      name: DataTypes.STRING,
+      status: DataTypes.INTEGER,
+      category: DataTypes.INTEGER,
+      identifier: DataTypes.INTEGER,
+      serialNumber: DataTypes.STRING,
+      product: DataTypes.STRING,
+      manufacturer: DataTypes.STRING,
+      acquisitionDate: DataTypes.STRING,
+      location: DataTypes.STRING,
+      note: DataTypes.STRING,
+      team: DataTypes.STRING,
     },
-    assetNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    {
+      sequelize,
+      modelName: "Asset",
     },
-    name: DataTypes.STRING,
-    status: DataTypes.INTEGER,
-    category: DataTypes.INTEGER,
-    identifier: DataTypes.INTEGER,
-    serialNumber: DataTypes.STRING,
-    product: DataTypes.STRING,
-    manufacturer: DataTypes.STRING,
-    acquisitionDate: DataTypes.STRING,
-    location: DataTypes.STRING,
-    note: DataTypes.STRING,
-    team: DataTypes.STRING,
-  },
-  {
-    sequelize,
-    modelName: "Asset",
-  },
-);
-
-export default Asset;
+  );
+  return Asset;
+};

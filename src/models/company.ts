@@ -1,7 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Model, DataTypes, Sequelize } from "sequelize";
 
-interface CompanyAttributes {
+export default interface CompanyAttributes {
   companyId?: number;
   admin: number;
 }
@@ -33,20 +32,21 @@ class Company extends Model<CompanyAttributes> {
     });
   }
 }
-
-Company.init(
-  {
-    companyId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+export const CompanyFactory = (sequelize: Sequelize) => {
+  Company.init(
+    {
+      companyId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      admin: DataTypes.INTEGER,
     },
-    admin: DataTypes.INTEGER,
-  },
-  {
-    sequelize,
-    modelName: "Company",
-  },
-);
-
-export default Company;
+    {
+      sequelize,
+      modelName: "Company",
+    },
+  );
+  return Company;
+};
+CompanyFactory;

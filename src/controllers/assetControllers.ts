@@ -1,12 +1,20 @@
 import logger from "../utils/logger.js";
 import AssetServices from "../services/assetServices.js";
 import { Request, Response, NextFunction } from "express";
+import models, { sequelize } from "../models/index.js";
 import {
+  Asset,
+  Category,
+  Company,
+  Dashboard,
+  Status,
+  User,
+  AssetInstance,
+  AssetCount,
   ReadAssetInput,
   ReadAssetOutput,
   dashboardReadAssetInterface,
 } from "../interface/AssetInterfaces.js";
-import Asset from "src/models/asset.js";
 class AssetControllers {
   private assetServices: AssetServices;
   constructor() {
@@ -15,7 +23,7 @@ class AssetControllers {
 
   createAsset = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const val: Asset = req.body;
+      const val: typeof models.Asset = req.body;
       const asset = await this.assetServices.createAsset(val);
       return res.status(200).send({ asset });
     } catch (error: any) {
@@ -67,7 +75,7 @@ class AssetControllers {
 
   readAsset = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const val = req.query.id as unknown as ReadAssetInput;
+      const val = req.query as unknown as ReadAssetInput;
       const asset: ReadAssetOutput = await this.assetServices.readAsset(val);
       return res.status(200).send({ asset });
     } catch (error: any) {
@@ -82,7 +90,7 @@ class AssetControllers {
     next: NextFunction,
   ) => {
     try {
-      const val = req.query.id as string;
+      const val = req.query;
       const result: ReadAssetOutput =
         await this.assetServices.categoryReadAsset(val);
       return res.status(201).send(result);
@@ -98,7 +106,7 @@ class AssetControllers {
     next: NextFunction,
   ) => {
     try {
-      const val = req.query.id as unknown as ReadAssetInput;
+      const val = req.query as unknown as ReadAssetInput;
       const result: dashboardReadAssetInterface =
         await this.assetServices.dashboardReadAsset(val);
       return res.status(201).send(result);

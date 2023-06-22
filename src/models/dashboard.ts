@@ -1,7 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Model, DataTypes, Sequelize } from "sequelize";
 
-interface DashboardAttributes {
+export default interface DashboardAttributes {
   dashboardId?: number;
   name: string;
   category: number;
@@ -27,23 +26,23 @@ class Dashboard extends Model<DashboardAttributes> {
     });
   }
 }
-
-Dashboard.init(
-  {
-    dashboardId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+export const DashboardFactory = (sequelize: Sequelize) => {
+  Dashboard.init(
+    {
+      dashboardId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: DataTypes.STRING,
+      category: DataTypes.INTEGER,
+      note: DataTypes.STRING,
+      identifier: DataTypes.INTEGER,
     },
-    name: DataTypes.STRING,
-    category: DataTypes.INTEGER,
-    note: DataTypes.STRING,
-    identifier: DataTypes.INTEGER,
-  },
-  {
-    sequelize,
-    modelName: "Dashboard",
-  },
-);
-
-export default Dashboard;
+    {
+      sequelize,
+      modelName: "Dashboard",
+    },
+  );
+  return Dashboard;
+};

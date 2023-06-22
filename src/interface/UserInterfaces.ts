@@ -1,5 +1,8 @@
-import { User } from "../models/models.js";
+import models from "../models/index.js";
+import User from "../models/user.js";
+import sequelize from "../models/index.js";
 
+export { User, sequelize };
 export interface SignupInput {
   email: string;
   password: string;
@@ -8,7 +11,7 @@ export interface SignupInput {
   company: string;
 }
 
-export type UserResult = User | null;
+export type UserResult = typeof models.User | null;
 
 export interface ReadUserOutput {
   userId?: number | undefined;

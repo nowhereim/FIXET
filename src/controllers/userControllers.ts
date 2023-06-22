@@ -2,7 +2,11 @@ import UserServices from "../services/userServices.js";
 import bcrypt from "bcryptjs";
 import logger from "../utils/logger.js";
 import { Request, Response, NextFunction } from "express";
-import { ReadUserOutput, TokenOutput } from "../interface/UserInterfaces.js";
+import {
+  ReadUserOutput,
+  TokenOutput,
+  User,
+} from "../interface/UserInterfaces.js";
 
 class UserControllers {
   private userServices: UserServices;

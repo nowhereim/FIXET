@@ -1,7 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "./index.js";
+import { Model, DataTypes, Sequelize } from "sequelize";
 
-interface CategoryAttributes {
+export default interface CategoryAttributes {
   categoryId?: number;
   category: string;
 }
@@ -25,20 +24,20 @@ class Category extends Model<CategoryAttributes> {
     });
   }
 }
-
-Category.init(
-  {
-    categoryId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+export const CategoryFactory = (sequelize: Sequelize) => {
+  Category.init(
+    {
+      categoryId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      category: DataTypes.STRING,
     },
-    category: DataTypes.STRING,
-  },
-  {
-    sequelize,
-    modelName: "Category",
-  },
-);
-
-export default Category;
+    {
+      sequelize,
+      modelName: "Category",
+    },
+  );
+  return Category;
+};
