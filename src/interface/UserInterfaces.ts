@@ -26,7 +26,7 @@ export interface ReadUserOutput {
 
 export interface TokenOutput {
   accessToken: string;
-  rest: {
+  user: {
     userId?: number | undefined;
     email: string;
     name?: string | undefined;
