@@ -2,9 +2,14 @@
 
 ##  [FIXET 시연영상](https://www.youtube.com/playlist?list=PLCs67Cs0aRU6GnIEWiUko0qKrak4jftm4)
 
+## [디스콰이엇](https://disquiet.io/product/%EA%B4%80%EB%A6%AC%EC%96%B4%EC%A9%94)
+<img width="217" alt="image" src="https://github.com/nowhereim/FIXET/assets/113084907/23b88892-750b-4c81-acaa-bf4675ecf00d">
+
+
+
 ## 1. 프로젝트 소개
 
-- FIXET <b>사내 장비 관리 서비스 </b> 입니다.
+- FIXET(구 관리어쩔) <b>사내 장비 관리 서비스 </b> 입니다.
 - 안그래도 업무가 많은 총무, 경영지원팀이 <b>자산 수리까지 담당하여 업무 과부하</b>를 겪고 있는 문제를 발견하였습니다.
 - 또한 많아지는 스타트업에 자산 수리와 같은 <b>잡무를 따로 관리할 부서</b>가 없다는 점도 확인하였습니다.
 - 그래서 저희 팀은 이러한 문제를 해결하고자 <b>(회사 자산 수리를 대행해주는) FIXET</b> 이라는 프로덕트를 만들었습니다.
