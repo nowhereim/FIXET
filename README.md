@@ -3,7 +3,9 @@
 ##  [FIXET 시연영상](https://www.youtube.com/playlist?list=PLCs67Cs0aRU6GnIEWiUko0qKrak4jftm4)
 
 ## [디스콰이엇](https://disquiet.io/product/%EA%B4%80%EB%A6%AC%EC%96%B4%EC%A9%94)
+### 실시간 1위 달성
 <img width="217" alt="image" src="https://github.com/nowhereim/FIXET/assets/113084907/23b88892-750b-4c81-acaa-bf4675ecf00d">
+
 
 
 
