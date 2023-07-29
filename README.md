@@ -1,4 +1,4 @@
-### 프로젝트 기간 : 2023. 03. 01 ~ 2023. 06. 17 
+### 프로젝트 기간 : 2023. 03. 01 ~ 2023. 06. 17
 
 ##  [FIXET 시연영상](https://www.youtube.com/playlist?list=PLCs67Cs0aRU6GnIEWiUko0qKrak4jftm4)
 
