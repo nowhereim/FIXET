@@ -41,9 +41,9 @@
 
 - 협업 도구: [Figma](https://www.figma.com/file/uMnuBuXFiwIJbQLgbdl8ah/FIXET?type=design&node-id=484%3A9060&mode=design&t=rCls8CpmHHzBobyh-1), Notion, zoom , Slack , Google Sheets
 
-### 배포
+### 클라우드
 
-- AWS EC2 , ROUTE 53 , RDS , AWS load balancer , nginx
+- AWS EC2 , ROUTE 53 , RDS  , nginx
 
 
 ## 4. 팀 협업 방식
